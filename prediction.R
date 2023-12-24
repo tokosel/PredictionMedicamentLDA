@@ -6,3 +6,4 @@ predict_drug <- function(model, patient_data){
   
   return(prediction)
 }
+

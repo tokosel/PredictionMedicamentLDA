@@ -9,7 +9,7 @@ library(MASS)
 library(shiny)
 
 # Import des données
-df = read.csv("C:/Users/hp/Desktop/Master SID/Méthodes de classification/Spss/drug1n.csv")
+df = read.csv("drug.csv")
 
 # Préparation des données 
 df$Drug = factor(df$Drug)

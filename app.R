@@ -5,7 +5,7 @@ model <- readRDS("model.rds")
 # Définition de l'interface utilisateur
 ui <- fluidPage(
   
-  titlePanel("Prédiction Médicament"),
+  titlePanel("Prédiction du Médicament qui convient à un patient"),
   
   sidebarLayout(
     sidebarPanel(
