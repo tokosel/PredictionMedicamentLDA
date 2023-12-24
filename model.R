@@ -4,7 +4,8 @@
 library(dplyr)
 library(ggplot2)
 library(caret)
-library(randomForest)
+#library(randomForest)
+library(MASS)
 library(shiny)
 
 # Import des données
@@ -15,17 +16,29 @@ df$Drug = factor(df$Drug)
 
 # Partition train/test
 set.seed(123)
-index = createDataPartition(df$Drug, p = 0.8, list = FALSE) 
-train = df[index,]
-test = df[-index,]
+index = sample(1:nrow(df), 0.8*nrow(df))
+train = df[index, ]
+test = df[-index, ]
 
-# Entrainement model
-model <- randomForest(Drug ~ ., data = train, ntree = 100) 
+# Apprentissage du modèle
+model = lda(Drug ~ ., data = train)
 
-# Évaluation
-pred <- predict(model, test)
-accuracy <- mean(pred == test$Drug) 
+# Prédictions sur le testset  
+predictions = predict(model, test)$class
+
+# Matrice de confusion
+confusionMatrix(predictions, test$Drug)
+
+# Accuracy
+accuracy = mean(predictions == test$Drug)
+
+# Sensibilité et spécificité par classe
+sensitivity = confusionMatrix(predictions, test$Drug)$byClass[,"Sensitivity"]
+specificity = confusionMatrix(predictions, test$Drug)$byClass[,"Specificity"]
+
 print(paste("Accuracy:", accuracy))
+print(paste("Sensibilité:", sensitivity)) 
+print(paste("Spécificité:", specificity))
 
 # Sauvegarde model
 saveRDS(model, "model.rds")
