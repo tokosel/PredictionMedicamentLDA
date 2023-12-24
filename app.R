@@ -1,6 +1,3 @@
-# Chargement des librairies
-library(shiny)
-library(randomForest)
 source("prediction.R")
 # Charger le modèle
 model <- readRDS("model.rds")
